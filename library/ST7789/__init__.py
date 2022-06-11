@@ -23,10 +23,10 @@ import time
 import numpy as np
 
 import spidev
-import RPi.GPIO as GPIO
+import OPi.GPIO as GPIO
 
 
-__version__ = '0.0.4'
+__version__ = '0.0.5'
 
 BG_SPI_CS_BACK = 0
 BG_SPI_CS_FRONT = 1
@@ -86,6 +86,32 @@ ST7789_GMCTRN1 = 0xE1
 
 ST7789_PWCTR6 = 0xFC
 
+BOARD = {
+   3:  490, #F2: I2C_EE_M3_SDA	F1: GPIOA_14
+   5:  491, #F2: I2C_EE_M3_SCL	F1: GPIOA_15
+   7:  415, #F4: I2C_AO_S0_SDA	F3: UART_AO_B_RX  F2: I2C_AO_M0_SDA	 F1:GPIOAO_3
+   8:  412, #F1: GPIOAO_0   F2: UART_AO_A_TXD
+   10: 413, #F1: GPIOAO_1   F2: UART_AO_A_RXD
+   11: 414,
+   12: 501,
+   13: 503,
+   16: 502,
+   18: 500,
+   19: 447,
+   21: 448,
+   22: 475,
+   23: 450,
+   24: 449,
+   27: 415,
+   28: 414,
+   32: 416,
+   35: 420,
+   36: 451,
+   37: 421,
+   38: 422,
+   40: 423
+}
+
 
 class ST7789(object):
     """Representation of an ST7789 TFT LCD."""
@@ -118,7 +144,7 @@ class ST7789(object):
             raise ValueError("Invalid rotation {} for {}x{} resolution".format(rotation, width, height))
 
         GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
+        GPIO.setmode(BOARD)
 
         self._spi = spidev.SpiDev(port, cs)
         self._spi.mode = 0
